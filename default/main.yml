@@ -1,0 +1,5 @@
+---
+netdata_db_multihost_disk_space: 40960
+netdata_hostname: "auto-detected"
+netdata_server_domain: "{{ netdata_registry_domain }}"
+netdata_server_page_cache_size: 4096

@@ -1,0 +1,72 @@
+- name: Copy netdata.conf
+  template:
+    src: "netdata.conf.j2"
+    dest: "/etc/netdata/netdata.conf"
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+  notify:
+    - "Restart Netdata"
+
+- name: Copy health_alarm_notify.conf
+  template:
+    src: "health_alarm_notify.conf.j2"
+    dest: "/etc/netdata/health_alarm_notify.conf"
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+  notify:
+    - "Restart Netdata"
+
+- name: Copy stream.conf
+  template:
+    src: "stream.conf.j2"
+    dest: "/etc/netdata/stream.conf"
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+  notify:
+    - "Restart Netdata"
+
+- name: Copy disks.conf
+  copy:
+    src: health.d/disks.conf
+    dest: /etc/netdata/health.d/disks.conf
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+  notify:
+    - "Restart Netdata"
+
+- name: Make sure systemd folder for unit files exists
+  file:
+    path: /etc/systemd/system/netdata.service.d
+    state: directory
+    mode: '0755'
+    owner: "root"
+    group: "root"
+
+- name: Copy conf to systemd unit folder to increase file descriptors
+  copy:
+    src: systemd/increase-file-descriptor.conf
+    dest: /etc/systemd/system/netdata.service.d/increase-file-descriptor.conf
+  register: descriptor_conf
+  notify:
+    - "Restart Netdata"
+
+- name: Reload systemd daemon if file descriptor conf has changed.
+  systemd:
+    daemon_reload: true
+  when: descriptor_conf is changed
+
+- name: Enable netdata service and ensure it got restarted
+  systemd:
+    name: netdata
+    enabled: true
+
+- name: Copy Caddy configuration
+  template:
+    src: Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+  notify:
+    - Restart Caddy

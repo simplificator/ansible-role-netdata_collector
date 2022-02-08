@@ -37,6 +37,21 @@ Optional variables:
 
 Additionally, we expect that a certificate is placed at `/etc/netdata/ssl/cert.pem`. It'll be used to encrypt the traffic between node and collector. More information can be found in the [netdata installation role](https://github.com/simplificator/ansible-role-netdata_installation).
 
+### Notifications
+
+The role currently supports Microsoft Teams and Slack as "recipients" for notifications.
+
+For Slack, you need the following values:
+
+* `netdata_server_custom_slack_sender`: If set to "yes", this will activate a custom slack notifier which makes smaller messages.
+* `netdata_alarms_slack_channel`: The channel where netdata should sent its messages.
+* `netdata_server_slack_webhook`: Webhook to send slack messages.
+
+For Teams, set the following ones:
+
+* `netdata_server_teams_recipients`: The channel where netdata should sent its messages.
+* `netdata_server_teams_webhook`: Webhook URL where Netdata can send its notifications.
+
 ## Dependencies
 
 * [simplificator.netdata_installation](https://github.com/simplificator/ansible-role-netdata_installation)

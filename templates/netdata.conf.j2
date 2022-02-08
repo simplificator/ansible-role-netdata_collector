@@ -1,0 +1,103 @@
+[global]
+    access log = none
+    update every = 15
+    memory mode = dbengine
+    page cache size = {{ netdata_server_page_cache_size | mandatory }}
+    dbengine multihost disk space = {{ netdata_db_multihost_disk_space | mandatory }}
+
+    run as user = netdata
+    web files owner = root
+    web files group = netdata
+
+    {% if netdata_hostname != "auto-detected" %}
+    hostname = {{ netdata_hostname }}
+    {% endif %}
+
+[web]
+    ssl key = /etc/netdata/ssl/key.pem
+    ssl certificate = /etc/netdata/ssl/cert.pem
+    bind to = *:19999=streaming^SSL=force 127.0.0.1:19998=dashboard|badges|management|netdata.conf|registry^SSL=optional
+
+[registry]
+    enabled = yes
+    registry domain = {{ netdata_registry_domain | mandatory }}
+    registry to announce = {{ netdata_registry_to_announce | mandatory }}
+
+# SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_netstat.c
+[plugin:proc:/proc/net/netstat]
+bandwidth = no
+input errors = no
+multicast bandwidth = no
+broadcast bandwidth = no
+multicast packets = no
+broadcast packets = no
+ECN packets = no
+TCP reorders = no
+TCP SYN cookies = no
+TCP out-of-order queue = no
+TCP connection aborts = no
+TCP memory pressures = no
+TCP SYN queue = no
+TCP accept queue = no
+
+# SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_sockstat.c#L121
+[plugin:proc:/proc/net/sockstat]
+ipv4 sockets = no
+ipv4 TCP sockets = no
+ipv4 TCP memory = no
+ipv4 UDP sockets = no
+ipv4 UDP memory = no
+ipv4 UDPLITE sockets = no
+ipv4 RAW sockets = no
+ipv4 FRAG sockets = no
+ipv4 FRAG memory = no
+
+# SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_sockstat6.c#L39
+[plugin:proc:/proc/net/sockstat6]
+ipv6 TCP sockets = no
+ipv6 UDP sockets = no
+ipv6 UDPLITE sockets = no
+ipv6 RAW sockets = no
+ipv6 FRAG sockets = no
+
+# SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_snmp.c#L110
+[plugin:proc:/proc/net/snmp]
+ipv4 packets = yes
+ipv4 fragments sent = no
+ipv4 fragments assembly = no
+ipv4 errors = no
+ipv4 TCP connections = no
+ipv4 TCP packets = yes
+ipv4 TCP errors = no
+ipv4 TCP opens = no
+ipv4 TCP handshake issues = no
+ipv4 UDP packets = yes
+ipv4 UDP errors = no
+ipv4 ICMP packets = yes
+ipv4 ICMP messages = no
+ipv4 UDPLite packets = yes
+
+# SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_snmp6.c#L132
+[plugin:proc:/proc/net/snmp6]
+ipv6 packets = yes
+ipv6 fragments sent = no
+ipv6 fragments assembly = no
+ipv6 errors = no
+ipv6 UDP packets = yes
+ipv6 UDP errors = no
+ipv6 UDPlite packets = yes
+ipv6 UDPlite errors = no
+bandwidth = no
+multicast bandwidth = no
+broadcast bandwidth = no
+multicast packets = no
+icmp = no
+icmp redirects = no
+icmp errors = no
+icmp echos = no
+icmp group membership = no
+icmp router = no
+icmp neighbor = no
+icmp mldv2 = no
+icmp types = no
+ect = no
