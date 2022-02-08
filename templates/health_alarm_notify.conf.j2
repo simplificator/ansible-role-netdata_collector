@@ -1,0 +1,67 @@
+{% if netdata_collector_slack_webhook is defined %}
+SLACK_WEBHOOK_URL="{{ netdata_collector_slack_webhook }}"
+
+{% if netdata_collector_custom_slack_sender is defined %}
+SEND_CUSTOM="YES"
+DEFAULT_RECIPIENT_CUSTOM="{{ netdata_alarms_slack_channel }}"
+
+# Docs:
+# https://docs.netdata.cloud/health/notifications/custom/
+#
+# The code here was adapted from:
+# https://github.com/netdata/netdata/blob/v1.19.0/health/notifications/alarm-notify.sh.in#L1221
+custom_sender() {
+    local webhook="${SLACK_WEBHOOK_URL}" channels="${1}" httpcode sent=0 channel icon payload
+
+    case "${status}" in
+        WARNING) icon=":bananana:" ;;
+        CRITICAL) icon=":red_shell:" ;;
+        CLEAR) icon=":1up:" ;;
+
+        *) icon=":grey_question:" ;;
+    esac
+
+    for channel in ${channels}; do
+        # Default entry in the recipient is without a hash in front (backwards-compatible). Accept specification of channel or user.
+        if [ "${channel::1}" != "#" ] && [ "${channel::1}" != "@" ]; then channel="#$channel"; fi
+
+        # If channel is equal to "#" then do not send the channel attribute at all. Slack also defines channels and users in webhooks.
+        if [ "${channel}" = "#" ]; then
+                ch=""
+                chstr="without specifying a channel"
+        else
+                ch="\"channel\": \"${channel}\","
+                chstr="to '${channel}'"
+        fi
+
+        default_info_text="more info"
+        payload="$(
+                cat <<EOF
+    {
+        $ch
+        "username": "${host} (Netdata)",
+        "icon_url": "${images_base_url}/images/banner-icon-144x144.png",
+        "text": "${icon} ${host} ${status_message}, \`${chart}\` (_${family}_), *${alarm}*, <${goto_url}|${info:-$default_info_text}>"
+    }
+EOF
+        )"
+        httpcode=$(docurl -X POST --data-urlencode "payload=${payload}" "${webhook}")
+        if [ "${httpcode}" = "200" ]; then
+            info "sent slack notification for: ${host} ${chart}.${name} is ${status} ${chstr}"
+            sent=$((sent + 1))
+        else
+            error "failed to send slack notification for: ${host} ${chart}.${name} is ${status} ${chstr}, with HTTP error code ${httpcode}."
+        fi
+    done
+}
+{% endif %}
+{% if netdata_collector_custom_slack_sender is undefined %}
+SEND_SLACK="YES"
+DEFAULT_RECIPIENT_SLACK="{{ netdata_alarms_slack_channel }}"
+{% endif %}
+{% endif %}
+{% if netdata_collector_teams_webhook is defined and netdata_collector_teams_recipients is defined %}
+SEND_MSTEAM="YES"
+MSTEAM_WEBHOOK_URL="{{ netdata_collector_teams_webhook }}"
+DEFAULT_RECIPIENT_MSTEAM="{{ netdata_collector_teams_recipients }}"
+{% endif %}

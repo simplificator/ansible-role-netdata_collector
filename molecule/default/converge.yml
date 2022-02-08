@@ -1,0 +1,18 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  roles:
+    - role: simplificator.netdata_collector
+
+  vars:
+    netdata_collector_basic_auth_user: admin
+    netdata_collector_basic_auth_password: JDJhJDE0JE9FYmltMG9LbVJGNVRld3hWRHMvek9Mb3FhNno5T05hYjFDYllPcjVPOFJrTEtScFBmN1Fl # admin123$
+    netdata_collector_domain: "http://127.0.0.1"
+    netdata_collector_default_stream_key: 267E1130-EDDA-4574-82FA-EF17286B0816
+    netdata_collector_registry_domain: example.com
+    netdata_collector_silent_stream_key: 6840CAB7-AE62-49C3-B5D9-C4323BBAAF94
+    netdata_server_certificate: certificate
+    netdata_server_certificate_key: key
+    netdata_registry_to_announce: "https://registry.example.com"

@@ -1,0 +1,7 @@
+{{ netdata_collector_domain | mandatory }} {
+    basicauth {
+        {{ netdata_collector_basic_auth_user | mandatory }} {{ netdata_collector_basic_auth_password | mandatory }}
+    }
+
+    reverse_proxy 127.0.0.1:19998
+}
