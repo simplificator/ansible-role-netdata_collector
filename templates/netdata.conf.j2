@@ -2,8 +2,8 @@
     access log = none
     update every = 15
     memory mode = dbengine
-    page cache size = {{ netdata_server_page_cache_size | mandatory }}
-    dbengine multihost disk space = {{ netdata_db_multihost_disk_space | mandatory }}
+    page cache size = {{ netdata_collector_page_cache_size }}
+    dbengine multihost disk space = {{ netdata_db_multihost_disk_space }}
 
     run as user = netdata
     web files owner = root
@@ -20,7 +20,7 @@
 
 [registry]
     enabled = yes
-    registry domain = {{ netdata_registry_domain | mandatory }}
+    registry domain = {{ netdata_collector_registry_domain | mandatory }}
     registry to announce = {{ netdata_registry_to_announce | mandatory }}
 
 # SOURCE: https://github.com/netdata/netdata/blob/b548214e35454cd1a4f36cd3fa39703b2c270e50/collectors/proc.plugin/proc_net_netstat.c

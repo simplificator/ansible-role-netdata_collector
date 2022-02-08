@@ -1,7 +1,7 @@
-{% if netdata_server_slack_webhook is defined %}
-SLACK_WEBHOOK_URL="{{ netdata_server_slack_webhook }}"
+{% if netdata_collector_slack_webhook is defined %}
+SLACK_WEBHOOK_URL="{{ netdata_collector_slack_webhook }}"
 
-{% if netdata_server_custom_slack_sender is defined %}
+{% if netdata_collector_custom_slack_sender is defined %}
 SEND_CUSTOM="YES"
 DEFAULT_RECIPIENT_CUSTOM="{{ netdata_alarms_slack_channel }}"
 
@@ -55,13 +55,13 @@ EOF
     done
 }
 {% endif %}
-{% if netdata_server_custom_slack_sender is undefined %}
+{% if netdata_collector_custom_slack_sender is undefined %}
 SEND_SLACK="YES"
 DEFAULT_RECIPIENT_SLACK="{{ netdata_alarms_slack_channel }}"
 {% endif %}
 {% endif %}
-{% if netdata_server_teams_webhook is defined and netdata_server_teams_recipients is defined %}
+{% if netdata_collector_teams_webhook is defined and netdata_collector_teams_recipients is defined %}
 SEND_MSTEAM="YES"
-MSTEAM_WEBHOOK_URL="{{ netdata_server_teams_webhook }}"
-DEFAULT_RECIPIENT_MSTEAM="{{ netdata_server_teams_recipients }}"
+MSTEAM_WEBHOOK_URL="{{ netdata_collector_teams_webhook }}"
+DEFAULT_RECIPIENT_MSTEAM="{{ netdata_collector_teams_recipients }}"
 {% endif %}

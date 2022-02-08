@@ -1,0 +1,7 @@
+- name: simplificator.netdata_installation
+  src: git+https://github.com/simplificator/ansible-role-netdata_installation
+  version: master
+
+- name: simplificator.caddy
+  src: git+https://github.com/simplificator/ansible-role-caddy
+  version: master

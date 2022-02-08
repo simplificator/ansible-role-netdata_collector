@@ -1,9 +1,9 @@
-[{{ netdata_stream_default_api_key | mandatory }}]
+[{{ netdata_collector_default_stream_key | mandatory }}]
     enabled = yes
     default memory mode = dbengine
     health enabled by default = auto
 
-[{{ netdata_stream_silence_api_key | mandatory }}]
+[{{ netdata_collector_silent_stream_key | mandatory }}]
     enabled = yes
     default memory mode = dbengine
     health enabled by default = no

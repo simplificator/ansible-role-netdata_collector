@@ -2,7 +2,7 @@
 galaxy_info:
   author: simplificator
   description: Allow to configure Netdata as stream receiver from multiple nodes.
-  role_name: netdata_caddy
+  role_name: netdata_collector
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
