@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Check Netdata service is running
+      service:
+        name: netdata
+        state: running
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
+
+    - name: Check Caddy service is running
+      service:
+        name: caddy
+        state: running
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
+
+    - name: Check dashboard is accessible
+      uri:
+        url: http://127.0.0.1
+        url_username: admin
+        url_password: admin123$
