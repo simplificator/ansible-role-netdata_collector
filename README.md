@@ -12,12 +12,14 @@ An empty Netdata installation, see dependencies.
 
 ## Role Variables
 
-The setup in general is highly opiniated.
+The setup is highly opinionated.
 
 * Caddy as a reverse proxy will be installed.
 * All routes to the dashboard are protected with basic authentication.
-* We differ between two types of streaming node: `silence` will deactivate all alarms but still collect data. `default` will activate all alarms.
+* The stream port is exposed to port 19999 and requires certificate-based authentication.
+* We differ between two types of streaming nodes: `silence` will deactivate all alarms but still collect data. `default` will activate all alarms.
 * Historic data will be stored within Netdatas own database mechanism.
+* We deactivated several TCP/UDP-related metrics
 
 This setup is reflected within the variables:
 
