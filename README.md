@@ -34,7 +34,7 @@ Optional variables:
 
 * `netdata_collector_page_cache_size`: The page cache size option determines the amount of RAM in MiB dedicated to caching Netdata metric values. The actual page cache size will be slightly larger than this figure — see the [memory requirements section](https://learn.netdata.cloud/docs/agent/database/engine/#memory-requirements) for details.
 * `netdata_collector_domain`:  Domain where the reverse proxy should listen to. If no value provided, it'll be set to the value of `netdata_registry_to_announce`.
-* `netdata_db_multihost_disk_space`: The dbengine multihost disk space option determines the amount of disk space in MiB that is dedicated to storing Netdata metric values and all related metadata describing them. You can use the [database engine calculator](https://learn.netdata.cloud/docs/store/change-metrics-storage#calculate-the-system-resources-ram-disk-space-needed-to-store-metrics) to correctly set dbengine multihost disk space based on your metrics retention policy. The calculator gives an accurate estimate based on how many child nodes you have, how many metrics your agent collects, and more.
+* `netdata_collector_db_disk_space`: The dbengine multihost disk space option determines the amount of disk space in MiB that is dedicated to storing Netdata metric values and all related metadata describing them. You can use the [database engine calculator](https://learn.netdata.cloud/docs/store/change-metrics-storage#calculate-the-system-resources-ram-disk-space-needed-to-store-metrics) to correctly set dbengine multihost disk space based on your metrics retention policy. The calculator gives an accurate estimate based on how many child nodes you have, how many metrics your agent collects, and more.
 * `netdata_hostname`: Allows you to overwrite the hostname of this Netdata host. Default value is "auto-detected". Note that a change of this variable could result in a drop of historic data.
 
 Additionally, we expect that a certificate is placed at `/etc/netdata/ssl/cert.pem`. It'll be used to encrypt the traffic between node and collector. More information can be found in the [netdata installation role](https://github.com/simplificator/ansible-role-netdata_installation).
@@ -46,7 +46,7 @@ The role currently supports Microsoft Teams and Slack as "recipients" for notifi
 For Slack, you need the following values:
 
 * `netdata_collector_custom_slack_sender`: If set to "yes", this will activate a custom slack notifier which makes smaller messages.
-* `netdata_alarms_slack_channel`: The channel where netdata should sent its messages.
+* `netdata_collector_slack_alarm_channel`: The channel where netdata should sent its messages.
 * `netdata_collector_slack_webhook`: Webhook to send slack messages.
 
 For Teams, set the following ones:
@@ -80,6 +80,15 @@ For Teams, set the following ones:
     netdata_server_certificate_key: key
     netdata_registry_to_announce: "https://registry.example.com"
 ```
+
+## Development
+
+### Variable naming
+
+To ensure that our Netdata roles remain compatible with each other, follow this variable naming convention:
+
+* Role-specific variables are prefixed with the role name (`netdata_node_` in this case).
+* General variables that are used in multiple roles will be prefixed with just `netdata_`.
 
 ## License
 

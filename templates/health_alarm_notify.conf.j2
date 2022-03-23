@@ -3,7 +3,7 @@ SLACK_WEBHOOK_URL="{{ netdata_collector_slack_webhook }}"
 
 {% if netdata_collector_custom_slack_sender is defined %}
 SEND_CUSTOM="YES"
-DEFAULT_RECIPIENT_CUSTOM="{{ netdata_alarms_slack_channel }}"
+DEFAULT_RECIPIENT_CUSTOM="{{ netdata_collector_slack_alarm_channel }}"
 
 # Docs:
 # https://docs.netdata.cloud/health/notifications/custom/
@@ -57,7 +57,7 @@ EOF
 {% endif %}
 {% if netdata_collector_custom_slack_sender is undefined %}
 SEND_SLACK="YES"
-DEFAULT_RECIPIENT_SLACK="{{ netdata_alarms_slack_channel }}"
+DEFAULT_RECIPIENT_SLACK="{{ netdata_collector_slack_alarm_channel }}"
 {% endif %}
 {% endif %}
 {% if netdata_collector_teams_webhook is defined and netdata_collector_teams_recipients is defined %}
