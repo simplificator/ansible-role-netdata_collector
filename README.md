@@ -76,8 +76,8 @@ For Teams, set the following ones:
     netdata_collector_default_stream_key: 267E1130-EDDA-4574-82FA-EF17286B0816
     netdata_collector_registry_domain: example.com
     netdata_collector_silent_stream_key: 6840CAB7-AE62-49C3-B5D9-C4323BBAAF94
-    netdata_server_certificate: certificate
-    netdata_server_certificate_key: key
+    netdata_installation_certificate: certificate
+    netdata_installation_certificate_key: key
     netdata_registry_to_announce: "https://registry.example.com"
 ```
 
