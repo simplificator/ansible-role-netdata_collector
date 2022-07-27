@@ -20,6 +20,7 @@ The setup is highly opinionated.
 * We differ between two types of streaming nodes: `silence` will deactivate all alarms but still collect data. `default` will activate all alarms.
 * Historic data will be stored within Netdatas own database mechanism.
 * We deactivated several TCP/UDP-related metrics
+* Links to Netdata cloud are disabled
 
 This setup is reflected within the variables:
 
