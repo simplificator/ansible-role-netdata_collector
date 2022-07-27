@@ -38,11 +38,29 @@
   notify:
     - "Restart Netdata"
 
+- name: Create cloud configuration directory
+  file:
+    path: /var/lib/netdata/cloud.d
+    state: directory
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+
+- name: Copy cloud.conf
+  copy:
+    src: cloud.d/cloud.conf
+    dest: /var/lib/netdata/cloud.d/cloud.conf
+    owner: "netdata"
+    group: "netdata"
+    mode: 0600
+  notify:
+    - "Restart Netdata"
+
 - name: Make sure systemd folder for unit files exists
   file:
     path: /etc/systemd/system/netdata.service.d
     state: directory
-    mode: '0755'
+    mode: "0755"
     owner: "root"
     group: "root"
 
