@@ -3,7 +3,15 @@
     update every = 15
     memory mode = dbengine
     page cache size = {{ netdata_collector_page_cache_size }}
-    dbengine multihost disk space = {{ netdata_collector_db_disk_space }}
+    
+    storage tiers = {{ netdata_collector_db_tiering | length }}
+    {%- for db_tier in netdata_collector_db_tiering -%}
+    {%- if loop.first -%}
+    dbengine multihost disk space = {{ db_tier }}
+    {%- else -%}
+    dbengine tier {{ loop.index }} multihost disk space MB = {{ db_tier }}
+    {%- endif -%}
+    {%- endfor -%}
 
     run as user = netdata
     web files owner = root
