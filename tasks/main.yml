@@ -44,7 +44,7 @@
     state: directory
     owner: "netdata"
     group: "netdata"
-    mode: 0600
+    mode: 0770
 
 - name: Copy cloud.conf
   copy:
@@ -52,7 +52,7 @@
     dest: /var/lib/netdata/cloud.d/cloud.conf
     owner: "netdata"
     group: "netdata"
-    mode: 0600
+    mode: 0770
   notify:
     - "Restart Netdata"
 
