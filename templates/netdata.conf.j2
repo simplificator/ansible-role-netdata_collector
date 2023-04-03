@@ -1,17 +1,20 @@
 [global]
     access log = none
-    update every = 15
+    update every = {{ netdata_collector_db_tiering[0].update_every }}
     memory mode = dbengine
     page cache size = {{ netdata_collector_page_cache_size }}
     
     storage tiers = {{ netdata_collector_db_tiering | length }}
-    {%- for db_tier in netdata_collector_db_tiering -%}
-    {%- if loop.first -%}
-    dbengine multihost disk space = {{ db_tier }}
-    {%- else -%}
-    dbengine tier {{ loop.index }} multihost disk space MB = {{ db_tier }}
-    {%- endif -%}
-    {%- endfor -%}
+    {% for db_tier in netdata_collector_db_tiering -%}
+    {% if loop.first -%}
+    dbengine multihost disk space = {{ db_tier.size }}
+
+    {% else -%}
+    dbengine tier {{ loop.index - 1 }} multihost disk space MB = {{ db_tier.size }}
+    dbengine tier {{ loop.index - 1}} update every iterations = {{ db_tier.update_every }}
+
+    {% endif -%}
+    {% endfor -%}
 
     run as user = netdata
     web files owner = root

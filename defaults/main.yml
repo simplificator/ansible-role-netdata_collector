@@ -1,8 +1,11 @@
 ---
 netdata_collector_db_tiering:
-  - 4800
-  - 1200
-  - 300
+  - size: 4800
+    update_every: 15
+  - size: 1200
+    update_every: 4
+  - size: 300
+    update_every: 60
 netdata_hostname: "auto-detected"
 netdata_collector_domain: "{{ netdata_collector_registry_domain }}"
 netdata_collector_page_cache_size: 4096
