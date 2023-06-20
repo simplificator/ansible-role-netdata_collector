@@ -17,12 +17,11 @@ jobs:
     strategy:
       matrix:
         distro:
-          - ubuntu1804
           - ubuntu2004
           - ubuntu2204
-          - debian9
           - debian10
           - debian11
+          - debian12
 
     steps:
       - name: Check out the codebase.
@@ -36,7 +35,7 @@ jobs:
           python-version: 3.x
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] docker
+        run: pip3 install ansible molecule molecule-plugins[docker] docker
 
       - name: Run Molecule tests.
         run: molecule test
