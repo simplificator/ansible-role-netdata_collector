@@ -29,8 +29,8 @@
     - "Restart Netdata"
 
 - name: Copy disks.conf
-  copy:
-    src: health.d/disks.conf
+  template:
+    src: "disks.conf.j2"
     dest: /etc/netdata/health.d/disks.conf
     owner: "netdata"
     group: "netdata"
