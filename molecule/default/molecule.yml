@@ -14,10 +14,15 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  env:
-    ANSIBLE_VERBOSITY: 3
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+scenario:
+  test_sequence:
+    - dependency
+    - destroy
+    - create
+    - converge
+    - verify
 
 verifier:
   name: ansible
