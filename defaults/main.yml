@@ -9,3 +9,4 @@ netdata_collector_db_tiering:
 netdata_hostname: "auto-detected"
 netdata_collector_domain: "{{ netdata_collector_registry_domain }}"
 netdata_collector_page_cache_size: 4096
+netdata_collector_custom_hosts_for_disk_conf: "*"

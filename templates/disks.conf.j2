@@ -3,7 +3,7 @@
 template: 60min_disk_utilization
       on: disk.util
       os: linux freebsd
-   hosts: *
+   hosts: {{ netdata_collector_custom_hosts_for_disk_conf }}
 families: *
   lookup: average -60m unaligned
    units: %
