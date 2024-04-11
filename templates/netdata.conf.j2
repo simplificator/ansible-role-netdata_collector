@@ -14,7 +14,7 @@
     storage tiers = {{ netdata_collector_db_tiering | length }}
     {% for db_tier in netdata_collector_db_tiering -%}
     {% if loop.first -%}
-    dbengine multihost disk space = {{ db_tier.size }}
+    dbengine multihost disk space MB = {{ db_tier.size }}
 
     {% else -%}
     dbengine tier {{ loop.index - 1 }} multihost disk space MB = {{ db_tier.size }}
