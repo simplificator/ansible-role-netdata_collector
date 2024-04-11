@@ -1,9 +1,16 @@
+# SOURCE: https://github.com/netdata/netdata/blob/8c84a6241ba89cd10b257ca37b442cf358ac7597/src/daemon/config/README.md
 [global]
-    access log = none
+    run as user = netdata
+
+    {% if netdata_hostname != "auto-detected" %}
+    hostname = {{ netdata_hostname }}
+    {% endif %}
+
+[db]
     update every = {{ netdata_collector_db_tiering[0].update_every }}
-    memory mode = dbengine
-    page cache size = {{ netdata_collector_page_cache_size }}
-    
+    mode = dbengine
+    dbengine page cache size MB = {{ netdata_collector_page_cache_size }}
+
     storage tiers = {{ netdata_collector_db_tiering | length }}
     {% for db_tier in netdata_collector_db_tiering -%}
     {% if loop.first -%}
@@ -11,24 +18,23 @@
 
     {% else -%}
     dbengine tier {{ loop.index - 1 }} multihost disk space MB = {{ db_tier.size }}
-    dbengine tier {{ loop.index - 1}} update every iterations = {{ db_tier.update_every }}
+    dbengine tier {{ loop.index - 1 }} update every iterations = {{ db_tier.update_every }}
 
     {% endif -%}
     {% endfor -%}
 
-    run as user = netdata
-    web files owner = root
-    web files group = netdata
+[logs]
+    access = none
 
-    {% if netdata_hostname != "auto-detected" %}
-    hostname = {{ netdata_hostname }}
-    {% endif %}
-
+# SOURCE: https://github.com/netdata/netdata/blob/8c84a6241ba89cd10b257ca37b442cf358ac7597/src/web/server/README.md
 [web]
     ssl key = /etc/netdata/ssl/key.pem
     ssl certificate = /etc/netdata/ssl/cert.pem
     bind to = *:19999=streaming^SSL=force 127.0.0.1:19998=dashboard|badges|management|netdata.conf|registry^SSL=optional
+    web files owner = root
+    web files group = netdata
 
+# SOURCE: https://github.com/netdata/netdata/blob/8c84a6241ba89cd10b257ca37b442cf358ac7597/src/registry/README.md
 [registry]
     enabled = yes
     registry domain = {{ netdata_collector_registry_domain | mandatory }}
